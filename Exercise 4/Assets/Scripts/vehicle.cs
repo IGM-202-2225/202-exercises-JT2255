@@ -40,7 +40,7 @@ public class vehicle : MonoBehaviour
 
         transform.position = vehiclePosition;    
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, direction), 0.005f);
+     //   transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, direction), 0.005f);
     }
 
     public void OnPlayerMove(InputAction.CallbackContext context)
@@ -49,7 +49,7 @@ public class vehicle : MonoBehaviour
 
         if (direction != Vector3.zero)
         {
-            //transform.rotation = Quaternion.LookRotation(Vector3.forward,direction);
+            transform.rotation = Quaternion.LookRotation(Vector3.forward,direction);
         }
     }
 }
