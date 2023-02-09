@@ -27,6 +27,16 @@ public class vehicle : MonoBehaviour
         vehiclePosition += velocity;
 
         //wrap here
+        if (vehiclePosition.x > 9)
+        {
+            vehiclePosition.x = -9;
+        }
+
+        if (vehiclePosition.x < -9)
+        {
+            vehiclePosition.x = 9;
+        }
+
 
         transform.position = vehiclePosition;    
 
