@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
 using UnityEngine;
 
 public class vehicle : MonoBehaviour
 {
     [SerializeField]
-    float speed;
+    float speed, turnAmount;
 
-    Vector3 direction = Vector3.right;
+    Vector3 direction = Vector3.zero;
     Vector3 velocity = Vector3.zero;
 
     [SerializeField]
@@ -24,6 +25,21 @@ public class vehicle : MonoBehaviour
     {
         velocity = direction * speed * Time.deltaTime;
         vehiclePosition += velocity;
-        transform.position = vehiclePosition;
+
+        //wrap here
+
+        transform.position = vehiclePosition;    
+
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(Vector3.forward, direction), 0.005f);
+    }
+
+    public void OnPlayerMove(InputAction.CallbackContext context)
+    {   
+        direction = context.ReadValue<Vector2>();
+
+        if (direction != Vector3.zero)
+        {
+            //transform.rotation = Quaternion.LookRotation(Vector3.forward,direction);
+        }
     }
 }
