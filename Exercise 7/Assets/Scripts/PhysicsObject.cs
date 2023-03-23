@@ -15,6 +15,7 @@ public class PhysicsObject : MonoBehaviour
     float mass = 1f;
 
     public bool useGravity, useFriction;
+    public float frictionCoeff;
 
     public Vector3 mousePos;
 
@@ -27,12 +28,6 @@ public class PhysicsObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePos = Mouse.current.position.ReadValue();
-        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
-        mousePos.z = transform.position.z;
-        ApplyForce(mousePos - transform.position);
-
-
         if (useGravity)
         {
             ApplyGravity(Vector3.down);
@@ -40,7 +35,7 @@ public class PhysicsObject : MonoBehaviour
 
         if (useFriction)
         {
-            ApplyFriction(0.2f);
+            ApplyFriction(frictionCoeff);
         }
 
         velocity += acceleration * Time.deltaTime;
@@ -76,11 +71,11 @@ public class PhysicsObject : MonoBehaviour
 
     void CheckForBounce()
     {
-          if (position.x > 10.25f)
+          if (position.x > 8)
           {
               velocity.x *= -1f;
           }
-          else if (position.x < -10.25f)
+          else if (position.x < -8)
           {
               velocity.x *= -1f;
           }
