@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PhysicsObject : MonoBehaviour
 {
@@ -13,6 +14,10 @@ public class PhysicsObject : MonoBehaviour
     [SerializeField]
     float mass = 1f;
 
+    public bool useGravity, useFriction;
+
+    public Vector3 mousePos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,10 +27,28 @@ public class PhysicsObject : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        mousePos = Mouse.current.position.ReadValue();
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        mousePos.z = transform.position.z;
+        ApplyForce(mousePos - transform.position);
+
+
+        if (useGravity)
+        {
+            ApplyGravity(Vector3.down);
+        }
+
+        if (useFriction)
+        {
+            ApplyFriction(0.2f);
+        }
+
         velocity += acceleration * Time.deltaTime;
         position += velocity * Time.deltaTime;
 
         //Do checks on new position here
+
+        CheckForBounce();
 
         transform.position = position;
 
@@ -35,5 +58,41 @@ public class PhysicsObject : MonoBehaviour
     public void ApplyForce(Vector3 force)
     {
         acceleration += force / mass;
+    }
+
+    void ApplyFriction(float coeff)
+    {
+        Vector3 friction = velocity * -1;
+        friction.Normalize();
+        friction = friction * coeff;
+
+        ApplyForce(friction);
+    }
+
+    void ApplyGravity(Vector3 force)
+    {
+        acceleration += force;
+    }
+
+    void CheckForBounce()
+    {
+          if (position.x > 10.25f)
+          {
+              velocity.x *= -1f;
+          }
+          else if (position.x < -10.25f)
+          {
+              velocity.x *= -1f;
+          }
+
+          if (position.y > 5)
+          {
+              velocity.y *= -1f;
+          }
+          else if (position.y < -5)
+          {
+              velocity.y *= -1f;
+          }
+         
     }
 }
