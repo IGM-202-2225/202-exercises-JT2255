@@ -21,6 +21,7 @@ public class PhysicsObject : MonoBehaviour
     public float frictionCoeff;
 
     public Vector3 mousePos;
+    public float radius = 1f;
     
     // Start is called before the first frame update
     void Start()
@@ -101,6 +102,5 @@ public class PhysicsObject : MonoBehaviour
           {
               velocity.y *= -1f;
           }
-         
     }
 }

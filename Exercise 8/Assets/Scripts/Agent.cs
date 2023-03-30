@@ -20,7 +20,7 @@ public abstract class Agent : MonoBehaviour
         }
     }
 
-    void Update()
+    protected virtual void Update()
     {
         CalculateSteeringForces();
 
@@ -49,7 +49,16 @@ public abstract class Agent : MonoBehaviour
 
     protected void Flee(Vector3 targetPos, float weight = 1f)
     {
-        // calculate desired velocty
+        // calculate desired velocity
         Vector3 desiredVelocity = physicsObject.Position - targetPos;
+    
+        // set desired velocity magnitude to max speed
+        desiredVelocity = desiredVelocity.normalized * maxSpeed;
+
+        // calculate the flee steering force
+        Vector3 fleeingForce = desiredVelocity - physicsObject.Velocity;
+        
+        // apply the flee steering force
+        totalForce += fleeingForce * weight;
     }
 }
