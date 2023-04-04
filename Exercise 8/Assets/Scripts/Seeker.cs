@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Seeker : Agent
 {
-    public GameObject targetAgent;
+    public Agent targetAgent;
     
     protected override void CalculateSteeringForces()
     {
-        // move towards other agent
-        Seek(targetAgent.transform.position);
+       // move towards other agent
+       totalForce += Seek(targetAgent.transform.position);
     }
 }

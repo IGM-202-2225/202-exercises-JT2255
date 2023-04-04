@@ -10,7 +10,7 @@ public abstract class Agent : MonoBehaviour
     public float maxSpeed = 5f;
     public float maxForce = 5f;
 
-    private Vector3 totalForce = Vector3.zero;
+    protected Vector3 totalForce = Vector3.zero;
     
     private void Awake () 
     {
@@ -32,7 +32,7 @@ public abstract class Agent : MonoBehaviour
 
     protected abstract void CalculateSteeringForces();
 
-    protected void Seek(Vector3 targetPos, float weight = 1f)
+    protected Vector3 Seek(Vector3 targetPos, float weight = 1f)
     {
         // calculate desired velocity
         Vector3 desiredVelocity = targetPos - physicsObject.Position;
@@ -43,11 +43,12 @@ public abstract class Agent : MonoBehaviour
         // calculate seek steering force
         Vector3 seekingForce = desiredVelocity - physicsObject.Velocity;
 
+        return seekingForce * weight;
         // apply seek steering force
-        totalForce += seekingForce * weight;
+        //totalForce += seekingForce * weight;
     }
 
-    protected void Flee(Vector3 targetPos, float weight = 1f)
+    protected Vector3 Flee(Vector3 targetPos, float weight = 1f)
     {
         // calculate desired velocity
         Vector3 desiredVelocity = physicsObject.Position - targetPos;
@@ -58,7 +59,31 @@ public abstract class Agent : MonoBehaviour
         // calculate the flee steering force
         Vector3 fleeingForce = desiredVelocity - physicsObject.Velocity;
         
+        return fleeingForce * weight;
         // apply the flee steering force
-        totalForce += fleeingForce * weight;
+        //totalForce += fleeingForce * weight;
+    }
+
+    protected Vector3 Pursue(Agent target)
+    {
+        return Seek(target.CalculateFuturePosition(2f));
+    }
+
+    protected Vector3 Wander(float time)
+    {
+        Vector3 circleCenter;
+        circleCenter = physicsObject.Velocity;
+        circleCenter.Normalize();
+        circleCenter.Scale(new Vector3(1.5f, 1.5f, 1.5f));
+
+        
+      
+
+        return Vector3.zero;
+    }
+
+    public Vector3 CalculateFuturePosition(float time)
+    {
+        return transform.position + (physicsObject.Velocity * time);
     }
 }
