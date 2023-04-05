@@ -9,6 +9,6 @@ public class Seeker : Agent
     protected override void CalculateSteeringForces()
     {
        // move towards other agent
-       totalForce += Seek(targetAgent.transform.position);
+       Seek(targetAgent.transform.position);
     }
 }

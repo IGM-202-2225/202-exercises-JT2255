@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Wanderer : Agent
 {
-    public GameObject targetAgent;
-
+    public float wanderWeight = 1f;
+    
+    [Min(1)]
+    public float stayInBoundsWeight = 3f;
+    
     protected override void CalculateSteeringForces()
     {
-        totalForce += Wander(2);
+        Wander(wanderWeight);
+        StayInBounds(stayInBoundsWeight);
     }
 }

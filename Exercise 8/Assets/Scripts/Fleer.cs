@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Fleer : Agent
 {
-    public Agent fleeAgent;
+    public GameObject fleeAgent;
     
     protected override void CalculateSteeringForces()
     {
         // flee away from other agent
-        totalForce += Flee(fleeAgent.transform.position);
+        Flee(fleeAgent.transform.position);
     }
 
     protected override void Update()
@@ -39,4 +39,6 @@ public class Fleer : Agent
 
         return false;
     }
+    
+    
 }

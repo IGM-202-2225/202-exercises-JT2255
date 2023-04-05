@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class PhysicsObject : MonoBehaviour
 {
@@ -9,10 +12,12 @@ public class PhysicsObject : MonoBehaviour
     Vector3 direction = Vector3.zero;
     Vector3 velocity = Vector3.zero;
     Vector3 acceleration = Vector3.zero;
+    private Vector3 cameraSize;
 
     public Vector3 Velocity => velocity;
     public Vector3 Direction => direction;
     public Vector3 Position => transform.position;
+    public Vector3 CameraSize => cameraSize;
 
     [SerializeField]
     float mass = 1f;
@@ -27,6 +32,9 @@ public class PhysicsObject : MonoBehaviour
     void Start()
     {
         position = transform.position;
+        cameraSize.y = Camera.main.orthographicSize;
+        cameraSize.x = cameraSize.y * Camera.main.aspect;
+        direction = Random.insideUnitCircle.normalized;
     }
 
     // Update is called once per frame
